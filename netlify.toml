@@ -1,8 +1,8 @@
 [build]
-  command = "pnpm run build"
+  command = "npx react-router build"
   publish = "build/client"
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/server"
+  to = "/.netlify/functions/react-router-server"
   status = 200
