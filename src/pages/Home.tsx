@@ -1,22 +1,17 @@
-import { useEffect } from "react";
-import Card from "../components/Card";
-import { useStore } from "../service";
+import { useOutletContext } from "react-router";
+import Card from "../components/ui/Card";
 
 export default function Home() {
-	const {fetchChosen, laptops, chosen: chosenLaptops, select, reject } = useStore();
-	useEffect(()=>{
-		fetchChosen()
-	},[])
+	const { laptops, select, chosen: chosenLaptops, reject } = useOutletContext<Store>();
 	return (
 		<section>
-			<div className="container overflow-x-auto flex mx-auto gap-2 hover:cursor-grab showcase">
-				{laptops.map((laptop) => (
-					<Card product={laptop} key={laptop.id} action={select} disabled={chosenLaptops.includes(laptop)} />
-				))}
+			<div className="mx-auto p-2">
+				<div className="flex flex-wrap gap-2 mb-2 justify-center">
+					{laptops.map((laptop) => {
+						return <Card product={laptop} key={laptop.id} action={select} disabled={chosenLaptops.includes(laptop)} reaction={reject} />;
+					})}
+				</div>
 			</div>
-			{chosenLaptops.map((laptop) => (
-				<Card product={laptop} key={laptop.id} action={select} disabled={chosenLaptops.includes(laptop)} />
-			))}
 		</section>
 	);
 }

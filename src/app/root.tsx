@@ -2,8 +2,9 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { useEffect } from "react";
 import { useStore } from "../service";
+import { useEffect } from "react";
+import Header from "../components/layout/Header";
 
 export const links: Route.LinksFunction = () => [
 	{ rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -17,7 +18,11 @@ export const links: Route.LinksFunction = () => [
 		href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
 	},
 ];
-
+export const meta = () => [
+	{
+		title: "Anor",
+	},
+];
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
@@ -28,6 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Links />
 			</head>
 			<body>
+				<Header />
 				<main>{children}</main>
 				<ScrollRestoration />
 				<Scripts />
@@ -37,7 +43,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-	return <Outlet />;
+	const { fetchChosen, ...store } = useStore();
+	useEffect(() => {
+		fetchChosen();
+	}, []);
+	return <Outlet context={{ fetchChosen, ...store }} />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

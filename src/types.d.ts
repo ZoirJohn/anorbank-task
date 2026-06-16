@@ -29,3 +29,11 @@ interface Laptop {
 	weightKg: number;
 	priceUSD: number;
 }
+
+interface Store {
+	laptops: Laptop[];
+	chosen: Laptop[];
+	select: (id: Laptop["id"]) => void;
+	reject: (id: Laptop["id"]) => void;
+	fetchChosen: () => void;
+}

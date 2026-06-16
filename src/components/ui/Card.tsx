@@ -1,4 +1,4 @@
-export default function Card({ product, action, disabled }: { product: Laptop; action: (id: Laptop["id"]) => void; disabled: boolean }) {
+export default function Card({ product, action, disabled,reaction }: { product: Laptop; action: (id: Laptop["id"]) => void; reaction: (id: Laptop["id"]) => void; disabled: boolean }) {
 	return (
 		<div className="w-full max-w-sm p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-900 dark:border-gray-700 shrink-0">
 			<div className="mb-4">
@@ -78,9 +78,15 @@ export default function Card({ product, action, disabled }: { product: Laptop; a
 			<div className="border-t border-gray-100 dark:border-gray-800 mb-4" />
 
 			<div className="flex gap-2">
-				<button onClick={() => action(product.id)} disabled={disabled} type="button" className="flex-1 py-2.5 px-4 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">
+				<button onClick={() => (action ? action(product.id) : {})} disabled={disabled} type="button" className="flex-1 py-2.5 px-4 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed dark:disabled:bg-gray-700 dark:disabled:text-gray-500">
 					Compare
 				</button>
+
+				{disabled && (
+					<button onClick={() => reaction(product.id)} type="button" className="py-2.5 px-4 border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-600 text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-200 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-800 dark:text-gray-300">
+						Undo
+					</button>
+				)}
 			</div>
 		</div>
 	);

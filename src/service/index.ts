@@ -150,24 +150,20 @@ function useStore() {
 
 	const [chosen, setChosen] = useState<Laptop[]>([]);
 
-	// Stores the "id" in the localStorage and local state
 	function select(id: Laptop["id"]) {
+		if (chosen.length >= 3) {
+			return;
+		}
 		storeId(id);
 		setChosen((prev) => [...prev, laptops.find((laptop) => laptop.id === id) as Laptop]);
 	}
 
-	// Deletes the "id" from the localStorage and local state
 	function reject(id: Laptop["id"]) {
 		deleteId(id);
 		setChosen((prev) => [...prev.filter((laptop) => laptop.id !== id)]);
 	}
 
-	// Stores "id" in the localStorage
 	function storeId(id: Laptop["id"]) {
-		if (!localStorage.getItem("chosen")) {
-			localStorage.setItem("chosen", JSON.stringify([]));
-		}
-
 		const chosen: number[] = JSON.parse(localStorage.getItem("chosen") as string);
 		if (chosen.length >= 3 || chosen.includes(id)) {
 			return;
@@ -177,14 +173,12 @@ function useStore() {
 		localStorage.setItem("chosen", JSON.stringify(chosen));
 	}
 
-	// Deletes "id" from the localStorage
 	function deleteId(id: Laptop["id"]) {
 		let chosen: number[] = JSON.parse(localStorage.getItem("chosen") as string);
 		chosen = chosen.filter((chosenId) => chosenId !== id);
 		localStorage.setItem("chosen", JSON.stringify(chosen));
 	}
 
-	// Fetches the chosen "id"s from the localStorage
 	function fetchChosen() {
 		const raw = localStorage.getItem("chosen");
 
