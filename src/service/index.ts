@@ -164,7 +164,11 @@ function useStore() {
 	}
 
 	function storeId(id: Laptop["id"]) {
-		const chosen: number[] = JSON.parse(localStorage.getItem("chosen") as string);
+		let chosen: number[] = JSON.parse(localStorage.getItem("chosen") as string);
+		if (!chosen) {
+			chosen = [];
+		}
+
 		if (chosen.length >= 3 || chosen.includes(id)) {
 			return;
 		}
